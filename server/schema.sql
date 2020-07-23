@@ -1,38 +1,65 @@
-CREATE DATABASE chat;
+CREATE DATABASE IF NOT EXISTS chat;
 
 USE chat;
 
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
-  id SMALLINT PRIMARY KEY,
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name VARCHAR(20)
 );
 
+DROP TABLE IF EXISTS messages;
+
 CREATE TABLE messages (
-  id smallint PRIMARY KEY,
-  username VARCHAR(20),
-  message_text VARCHAR(500),
-  room_id SMALLINT
-  -- FOREIGN KEY(username) REFERENCES users(id)
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  username INT,
+  message_text VARCHAR(500) NOT NULL,
+  room_id INT
 );
+
+DROP TABLE IF EXISTS friends;
 
 CREATE TABLE friends (
-  id SMALLINT PRIMARY KEY,
-  primary_user_id SMALLINT,
-  secondary_user_id SMALLINT
-  -- FOREIGN KEY(primary_user_id) REFERENCES users(id),
-  -- FOREIGN KEY(secondary_user_id) REFERENCES users(id)
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  primary_user_id INT,
+  secondary_user_id INT
 );
+
+DROP TABLE IF EXISTS rooms;
 
 CREATE TABLE rooms (
-  id SMALLINT PRIMARY KEY,
-  room_name VARCHAR(30),
-  message_id smallint
-  -- FOREIGN KEY(message_id) REFERENCES messages(id)
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  room_name VARCHAR(30) NOT NULL
+);
+ /*
+-- ALTER TABLE messages
+--   ADD FOREIGN KEY (username) REFERENCES users(id);
+-- ALTER TABLE messages
+--   ADD FOREIGN KEY (room_id) REFERENCES rooms(id);
+
+-- ALTER TABLE friends
+--   ADD FOREIGN KEY(primary_user_id) REFERENCES users(id);
+-- ALTER TABLE friends
+--   ADD FOREIGN KEY(secondary_user_id) REFERENCES users(id);
+
+-- ALTER TABLE rooms
+--   ADD FOREIGN KEY(message_id) REFERENCES messages(id);
+*/
+/* Create other tables and define schemas for them here! */
+/*
+
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
 );
 
---ALTER TABLE messages ADD FOREIGN KEY (room_id) REFERENCES rooms(id);
+*/
 
-/* Create other tables and define schemas for them here! */
+
 
 /*
 /server/schema.sql
@@ -91,13 +118,3 @@ of your database tables and loading them into your running MySQL server
 Edit the file server/schema.sql to define, in SQL, the tables you have visually designed.
 Load the schema into your MySQL server with mysql -u root < path/to/schema.sql.
 */
-
-
---            USERLIST                                                 FRIENDLIST
---  -----ID-----|-----name-----|               |-----ID-----|-----primary_ID-----|-----secondary_id-----|
---   1              bob                              1               1                     3
---   2              joe                              2               1                     5
---   3              tom                              3               2                     4
---   4              dick                             4               3                     1
---   5             harry                             5               4                     2
---                                                   6               5                     1
