@@ -30,3 +30,6 @@ if (!module.parent) {
   console.log('Listening on', app.get('port'));
 }
 
+var cors = require('cors');
+app.use(cors()); // Use this after the variable declaration
+

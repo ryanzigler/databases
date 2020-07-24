@@ -16,6 +16,12 @@ var Parse = {
     });
   },
 
+  // json: {
+  //   username: 'Valjean',
+  //   message: 'In mercy\'s name, three days is all I need.',
+  //   roomname: 'Hello'
+  // }
+
   readAll: function(successCB, errorCB = null) {
     $.ajax({
       url: Parse.server,
