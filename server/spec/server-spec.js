@@ -22,24 +22,20 @@ describe('Persistent Node Chat Server', function () {
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
     dbConnection.query('truncate ' + tablename, done);
-    console.log('BEFORE EACH AFTER TRUNCATE');
   });
 
   afterEach(function () {
-    console.log('AFTER EACH FUNCTION');
     dbConnection.end();
   });
 
   it('Should insert posted messages to the DB', function (done) {
     // Post the user to the chat server.
-    console.log('starting first request');
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/users',
       json: { username: 'Valjean' }
     }, function () {
       // Post a message to the node chat server:
-      console.log('FIRST REQUEST PASSED');
       request({
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/messages',
@@ -48,7 +44,7 @@ describe('Persistent Node Chat Server', function () {
           message: 'In mercy\'s name, three days is all I need.',
           roomname: 'Hello'
         }
-      }, console.log('ALL THE REQUESTS PASSED!'), function () {
+      }, function () {
 
         // Now if we look in the database, we should find the
         // posted message there.
@@ -59,8 +55,14 @@ describe('Persistent Node Chat Server', function () {
         // var queryString = 'SELECT username, message_text, room_id FROM messages JOIN INNER users ON message.username = user.id JOIN INNER rooms ON messages.room_id = rooms.id';
         var queryArgs = [];
 
+        // var queryArgs = [request.body.message, request.body.username, request.body.roomname];
+
+        // var quesryString = `INSERT INTO messages (message_text, username, room) values ( '${queryArgs[0]}', (SELECT id FROM users WHERE name = '${queryArgs[1]}' ), '${queryArgs[2]}' ) `;
+
+
         dbConnection.query(queryString, queryArgs, function (err, results) {
           // Should have one result:
+          console.log(results);
           expect(results.length).to.equal(1);
 
           // TODO: If you don't have a column named text, change this test.
@@ -74,7 +76,7 @@ describe('Persistent Node Chat Server', function () {
 
   it('Should output all messages from the DB', function (done) {
     // Let's insert a message into the db
-    var queryString = 'SELECT message_text FROM messages';
+    var queryString = 'SELECT * FROM messages';
     var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave

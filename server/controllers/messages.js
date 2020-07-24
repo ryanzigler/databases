@@ -1,12 +1,24 @@
 var models = require('../models');
-var bluebird = require('bluebird');
 
 module.exports = {
   get: function (req, res) {
+    models.messages.getAll((err, results) => {
+      if (err) {
+        console.log('err in controller.messages.get');
+      }
+      res.json(results);
+    });
 
-    console.log('request to get');
-  }, // a function which handles a get request for all messages
+  },
   post: function (req, res) {
-    console.log('request to post');
-  } // a function which handles posting a message to the database
+
+    var messageRoom = [req.body.message, req.body.username, req.body.roomname];
+    console.log(messageRoom);
+    models.messages.create(messageRoom, (err, results) => {
+      if (err) {
+        console.log('err in controller.messages.post');
+      }
+      res.status(201);
+    });
+  }
 };

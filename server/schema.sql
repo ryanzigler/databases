@@ -1,3 +1,4 @@
+/* eslint-disable */
 CREATE DATABASE IF NOT EXISTS chat;
 
 USE chat;
@@ -6,33 +7,21 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20)
+  name VARCHAR(20) UNIQUE
 );
 
 DROP TABLE IF EXISTS messages;
 
 CREATE TABLE messages (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  username INT,
+  username INT NOT NULL,
   message_text VARCHAR(500) NOT NULL,
-  room_id INT
+  room VARCHAR(500) NOT NULL
 );
 
-DROP TABLE IF EXISTS friends;
-
-CREATE TABLE friends (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  primary_user_id INT,
-  secondary_user_id INT
-);
-
-DROP TABLE IF EXISTS rooms;
-
-CREATE TABLE rooms (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  room_name VARCHAR(30) NOT NULL
-);
  /*
+
+ FOREIGN KEY (username) REFERENCES users(id)
 -- ALTER TABLE messages
 --   ADD FOREIGN KEY (username) REFERENCES users(id);
 -- ALTER TABLE messages
