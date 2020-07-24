@@ -18,7 +18,7 @@ module.exports = {
       if (err) {
         console.log('err in controller.messages.post');
       }
-      res.status(201);
+      res.sendStatus(201);
     });
   }
 };

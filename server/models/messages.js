@@ -14,7 +14,9 @@ module.exports = {
 
   // "POST"
   create: function (data, callback) {
-    var queryString = `INSERT INTO messages (message_text, username, room) \ VALUES ('${data[0]}', (SELECT id FROM users WHERE name = '${data[1]}'), '${data[2]}');`;
+    var queryString = 'INSERT INTO messages (text, userid, roomname) \
+                       VALUES (?, (SELECT id FROM users WHERE username = ?), ?)';
+    // var queryString = `INSERT INTO messages (text, userid, roomname) VALUES (${data[0]}, (SELECT id FROM users WHERE username = ${data[1]}), ${data[2]});`;
     console.log(queryString);
     db.query(queryString, data, (err, results) => {
       callback(err, results);

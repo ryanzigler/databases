@@ -55,18 +55,11 @@ describe('Persistent Node Chat Server', function () {
         // var queryString = 'SELECT username, message_text, room_id FROM messages JOIN INNER users ON message.username = user.id JOIN INNER rooms ON messages.room_id = rooms.id';
         var queryArgs = [];
 
-        // var queryArgs = [request.body.message, request.body.username, request.body.roomname];
-
-        // var quesryString = `INSERT INTO messages (message_text, username, room) values ( '${queryArgs[0]}', (SELECT id FROM users WHERE name = '${queryArgs[1]}' ), '${queryArgs[2]}' ) `;
-
-
         dbConnection.query(queryString, queryArgs, function (err, results) {
           // Should have one result:
-          console.log(results);
           expect(results.length).to.equal(1);
-
           // TODO: If you don't have a column named text, change this test.
-          expect(results[0].message_text).to.equal('In mercy\'s name, three days is all I need.');
+          expect(results[0].text).to.equal('In mercy\'s name, three days is all I need.');
 
           done();
         });
@@ -76,8 +69,8 @@ describe('Persistent Node Chat Server', function () {
 
   it('Should output all messages from the DB', function (done) {
     // Let's insert a message into the db
-    var queryString = 'SELECT * FROM messages';
-    var queryArgs = [];
+    var queryString = 'INSERT INTO messages(text, userid, roomname) VALUES (?, ?, ?)';
+    var queryArgs = ['Men like you can never change!', 1, 'main'];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */

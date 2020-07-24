@@ -10,7 +10,7 @@ module.exports = {
   },
   create: function (username, callback) {
 
-    var userQuery = `INSERT into users (name) VALUES ('${username[0]}')`;
+    var userQuery = `INSERT into users (username) VALUES ('${username[0]}')`;
     db.query(userQuery, username, function (err, results) {
       callback(err, results);
     });
